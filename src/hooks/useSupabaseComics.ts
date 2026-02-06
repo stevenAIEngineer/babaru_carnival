@@ -43,27 +43,27 @@ export function useSupabaseComics(): UseSupabaseComicsReturn {
             // Fetch comic rows with their items
             const { data: rowsData, error: rowsError } = await supabase
                 .from('comic_rows')
-                .select(`
-          *,
-          comic_row_items (
-            comic_id,
-            order
-          )
-        `)
+                .select('*')
                 .order('order', { ascending: true })
 
             if (rowsError) throw rowsError
 
+            // Fetch comic row items separately
+            const { data: rowItemsData } = await supabase
+                .from('comic_row_items')
+                .select('*')
+                .order('order', { ascending: true })
+
             // Map rows to include full comic objects
-            const rowsWithComics: ComicRowWithComics[] = (rowsData || []).map(row => ({
-                ...row,
-                comics: (row.comic_row_items || [])
-                    .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-                    .map((item: { comic_id: string }) =>
-                        comicsData?.find(c => c.id === item.comic_id)
-                    )
-                    .filter(Boolean) as Comic[]
-            }))
+            const rowsWithComics: ComicRowWithComics[] = (rowsData || []).map(row => {
+                const items = (rowItemsData || []).filter(item => item.row_id === row.id)
+                return {
+                    ...row,
+                    comics: items
+                        .map(item => comicsData?.find(c => c.id === item.comic_id))
+                        .filter((c): c is Comic => c !== undefined)
+                }
+            })
 
             setComics(comicsData || [])
             setComicRows(rowsWithComics)
