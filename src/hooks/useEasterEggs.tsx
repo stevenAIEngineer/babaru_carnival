@@ -119,6 +119,7 @@ export function EasterEggProvider({ children }: { children: ReactNode }) {
             return ''
         }
         console.log('%c🎪 Babaru Comic Hub', 'font-size: 24px; font-weight: bold; color: #8B5CF6;')
+        console.log('%c🏢 Built by JC Industries', 'font-size: 14px; font-weight: bold; color: #F59E0B;')
         console.log('%c👀 Well well, a developer! Want a job? (jk... unless?)', 'font-size: 14px; color: #5B8BD9;')
         console.log(devtools)
     }, [])
