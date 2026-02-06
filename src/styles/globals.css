@@ -1,0 +1,259 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== BABARU COMIC HUB - GLOBAL STYLES ===== */
+
+:root {
+  /* Brand Colors */
+  --babaru-blue: #5B8BD9;
+  --babaru-pink: #FFB6C1;
+  --babaru-purple: #8B5CF6;
+  --babaru-red: #EF4444;
+  --babaru-cream: #FEF7E7;
+  
+  /* Vintage Palette */
+  --vintage-paper: #F5F0E6;
+  --vintage-ink: #2D2A26;
+  --vintage-sepia: #8B7355;
+  --vintage-gold: #D4A853;
+}
+
+/* ===== BASE STYLES ===== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  background: linear-gradient(135deg, var(--babaru-cream) 0%, #FFF5E6 100%);
+  color: var(--vintage-ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar - Vintage Style */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vintage-paper);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--babaru-blue);
+  border-radius: 6px;
+  border: 2px solid var(--vintage-paper);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--babaru-purple);
+}
+
+/* ===== VINTAGE FILM GRAIN OVERLAY ===== */
+
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: grain 0.5s steps(10) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -2%); }
+  20% { transform: translate(2%, 2%); }
+  30% { transform: translate(-1%, 1%); }
+  40% { transform: translate(1%, -1%); }
+  50% { transform: translate(-2%, 2%); }
+  60% { transform: translate(2%, -2%); }
+  70% { transform: translate(-1%, -1%); }
+  80% { transform: translate(1%, 1%); }
+  90% { transform: translate(-2%, -1%); }
+}
+
+/* ===== VINTAGE COMPONENT STYLES ===== */
+
+@layer components {
+  /* Vintage Button */
+  .btn-vintage {
+    @apply px-6 py-3 font-display font-bold text-lg rounded-vintage 
+           border-4 border-vintage-ink shadow-vintage 
+           transition-all duration-150 ease-out cursor-pointer;
+  }
+  
+  .btn-vintage:hover {
+    @apply shadow-vintage-hover translate-x-[2px] translate-y-[2px];
+  }
+  
+  .btn-vintage:active {
+    @apply shadow-none translate-x-1 translate-y-1;
+  }
+  
+  .btn-primary {
+    @apply btn-vintage bg-babaru-blue text-white hover:bg-babaru-blue/90;
+  }
+  
+  .btn-secondary {
+    @apply btn-vintage bg-babaru-pink text-vintage-ink hover:bg-babaru-pink/90;
+  }
+  
+  .btn-purple {
+    @apply btn-vintage bg-babaru-purple text-white hover:bg-babaru-purple/90;
+  }
+
+  /* Vintage Card */
+  .card-vintage {
+    @apply bg-vintage-paper rounded-vintage-lg border-4 border-vintage-ink 
+           shadow-vintage-lg p-6 relative overflow-hidden;
+  }
+  
+  .card-vintage::before {
+    content: '';
+    @apply absolute inset-0 opacity-30 pointer-events-none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+  }
+
+  /* Vintage TV Frame */
+  .tv-frame {
+    @apply relative rounded-vintage-xl border-8 border-vintage-ink 
+           shadow-vintage-xl overflow-hidden;
+    background: linear-gradient(145deg, #4A4A4A 0%, #2D2A26 100%);
+    padding: 16px;
+  }
+  
+  .tv-screen {
+    @apply w-full h-full rounded-vintage overflow-hidden bg-black;
+  }
+
+  /* Speech Bubble */
+  .speech-bubble {
+    @apply relative bg-white rounded-vintage-lg border-4 border-vintage-ink 
+           px-4 py-3 shadow-vintage;
+  }
+  
+  .speech-bubble::after {
+    content: '';
+    @apply absolute -bottom-4 left-8 w-0 h-0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 16px solid var(--vintage-ink);
+  }
+  
+  .speech-bubble::before {
+    content: '';
+    @apply absolute -bottom-2 left-9 w-0 h-0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 12px solid white;
+    z-index: 1;
+  }
+
+  /* Badge Styles */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full 
+           font-display font-bold text-sm border-2 border-vintage-ink;
+  }
+  
+  .badge-production {
+    @apply badge bg-amber-400 text-vintage-ink;
+  }
+  
+  .badge-coming-soon {
+    @apply badge bg-babaru-purple text-white;
+  }
+  
+  .badge-released {
+    @apply badge bg-emerald-500 text-white;
+  }
+
+  /* Vintage Input */
+  .input-vintage {
+    @apply w-full px-4 py-3 rounded-vintage border-4 border-vintage-ink 
+           bg-white font-body text-vintage-ink shadow-vintage 
+           focus:outline-none focus:ring-2 focus:ring-babaru-purple 
+           focus:shadow-vintage-hover transition-all;
+  }
+}
+
+/* ===== TYPOGRAPHY ===== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', system-ui, sans-serif;
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes bounce-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-wiggle { animation: wiggle 0.5s ease-in-out infinite; }
+.animate-bounce-in { animation: bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.animate-slide-up { animation: slide-up 0.4s ease-out; }
+
+/* ===== SELECTION ===== */
+
+::selection {
+  background: var(--babaru-pink);
+  color: var(--vintage-ink);
+}
+
+/* ===== FOCUS STATES (ACCESSIBILITY) ===== */
+
+:focus-visible {
+  outline: 4px solid var(--babaru-purple);
+  outline-offset: 2px;
+}
+
+/* ===== MEDIA QUERIES ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .grain-overlay {
+    display: none;
+  }
+}
