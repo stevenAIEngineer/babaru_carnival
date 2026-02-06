@@ -42,7 +42,7 @@ export async function trackEvent({ eventType, comicId, metadata = {} }: TrackEve
                 url: window.location.pathname,
                 timestamp: new Date().toISOString(),
                 userAgent: navigator.userAgent,
-            },
+            } as Record<string, string>,
         })
     } catch (error) {
         // Silently fail - analytics should never break the app

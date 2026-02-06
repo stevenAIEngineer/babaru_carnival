@@ -1,6 +1,6 @@
 /**
  * Supabase Database Types
- * Auto-generated types for type-safe database queries
+ * @author Steven Lansangan
  */
 
 export type Json =
@@ -34,8 +34,35 @@ export interface Database {
                     created_at: string
                     updated_at: string
                 }
-                Insert: Omit<Database['public']['Tables']['comics']['Row'], 'id' | 'created_at' | 'updated_at'>
-                Update: Partial<Database['public']['Tables']['comics']['Insert']>
+                Insert: {
+                    title: string
+                    slug: string
+                    description?: string
+                    tagline?: string | null
+                    status?: ComicStatus
+                    thumbnail_url?: string | null
+                    video_url?: string | null
+                    duration?: number | null
+                    genres?: string[]
+                    rating?: number
+                    release_date?: string | null
+                    production_note?: string | null
+                }
+                Update: {
+                    title?: string
+                    slug?: string
+                    description?: string
+                    tagline?: string | null
+                    status?: ComicStatus
+                    thumbnail_url?: string | null
+                    video_url?: string | null
+                    duration?: number | null
+                    genres?: string[]
+                    rating?: number
+                    release_date?: string | null
+                    production_note?: string | null
+                }
+                Relationships: []
             }
             comic_rows: {
                 Row: {
@@ -46,8 +73,19 @@ export interface Database {
                     order: number
                     created_at: string
                 }
-                Insert: Omit<Database['public']['Tables']['comic_rows']['Row'], 'id' | 'created_at'>
-                Update: Partial<Database['public']['Tables']['comic_rows']['Insert']>
+                Insert: {
+                    title: string
+                    emoji?: string
+                    subtitle?: string
+                    order?: number
+                }
+                Update: {
+                    title?: string
+                    emoji?: string
+                    subtitle?: string
+                    order?: number
+                }
+                Relationships: []
             }
             comic_row_items: {
                 Row: {
@@ -56,8 +94,17 @@ export interface Database {
                     comic_id: string
                     order: number
                 }
-                Insert: Omit<Database['public']['Tables']['comic_row_items']['Row'], 'id'>
-                Update: Partial<Database['public']['Tables']['comic_row_items']['Insert']>
+                Insert: {
+                    row_id: string
+                    comic_id: string
+                    order?: number
+                }
+                Update: {
+                    row_id?: string
+                    comic_id?: string
+                    order?: number
+                }
+                Relationships: []
             }
             analytics_events: {
                 Row: {
@@ -68,8 +115,19 @@ export interface Database {
                     metadata: Json
                     created_at: string
                 }
-                Insert: Omit<Database['public']['Tables']['analytics_events']['Row'], 'id' | 'created_at'>
-                Update: Partial<Database['public']['Tables']['analytics_events']['Insert']>
+                Insert: {
+                    event_type: string
+                    comic_id?: string | null
+                    user_id?: string | null
+                    metadata?: Json
+                }
+                Update: {
+                    event_type?: string
+                    comic_id?: string | null
+                    user_id?: string | null
+                    metadata?: Json
+                }
+                Relationships: []
             }
             assets: {
                 Row: {
@@ -82,9 +140,33 @@ export interface Database {
                     size_bytes: number | null
                     created_at: string
                 }
-                Insert: Omit<Database['public']['Tables']['assets']['Row'], 'id' | 'created_at'>
-                Update: Partial<Database['public']['Tables']['assets']['Insert']>
+                Insert: {
+                    name: string
+                    bucket: string
+                    path: string
+                    public_url: string
+                    mime_type?: string | null
+                    size_bytes?: number | null
+                }
+                Update: {
+                    name?: string
+                    bucket?: string
+                    path?: string
+                    public_url?: string
+                    mime_type?: string | null
+                    size_bytes?: number | null
+                }
+                Relationships: []
             }
+        }
+        Views: {
+            [_ in never]: never
+        }
+        Functions: {
+            [_ in never]: never
+        }
+        Enums: {
+            [_ in never]: never
         }
     }
 }
