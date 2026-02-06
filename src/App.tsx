@@ -6,9 +6,9 @@ import { Routes, Route } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
-import Comics from './pages/Comics'
-import About from './pages/About'
-import Community from './pages/Community'
+import Comics from './pages/Comics.tsx'
+import About from './pages/About.tsx'
+import Community from './pages/Community.tsx'
 import { EasterEggProvider } from './hooks/useEasterEggs'
 
 function App() {
