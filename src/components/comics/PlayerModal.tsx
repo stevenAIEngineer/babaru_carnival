@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Player, PlayerRef } from '@remotion/player'
 import { Comic } from '../../data/comics'
+import { BabaruIntro } from '../../remotion/Intro/BabaruIntro'
 
 interface PlayerModalProps {
     comic: Comic | null
@@ -10,6 +12,35 @@ interface PlayerModalProps {
 
 export default function PlayerModal({ comic, isOpen, onClose }: PlayerModalProps) {
     const [isPlaying, setIsPlaying] = useState(false)
+    const [showIntro, setShowIntro] = useState(false)
+    const playerRef = useRef<PlayerRef>(null)
+
+    const handlePlay = useCallback(() => {
+        setShowIntro(true)
+        setIsPlaying(true)
+    }, [])
+
+    const handleIntroEnd = useCallback(() => {
+        setShowIntro(false)
+        // Episode content would start here
+    }, [])
+
+    // Listen for the player's ended event
+    useEffect(() => {
+        const player = playerRef.current
+        if (!player || !showIntro) return
+
+        player.addEventListener('ended', handleIntroEnd)
+        return () => {
+            player.removeEventListener('ended', handleIntroEnd)
+        }
+    }, [showIntro, handleIntroEnd])
+
+    const handleClose = useCallback(() => {
+        setShowIntro(false)
+        setIsPlaying(false)
+        onClose()
+    }, [onClose])
 
     if (!comic) return null
 
@@ -31,7 +62,7 @@ export default function PlayerModal({ comic, isOpen, onClose }: PlayerModalProps
                     {/* Backdrop */}
                     <motion.div
                         className="absolute inset-0 bg-vintage-ink/90 backdrop-blur-sm"
-                        onClick={onClose}
+                        onClick={handleClose}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -53,7 +84,7 @@ export default function PlayerModal({ comic, isOpen, onClose }: PlayerModalProps
                          bg-vintage-paper border-3 border-vintage-ink shadow-vintage
                          flex items-center justify-center font-bold text-xl
                          hover:bg-babaru-pink transition-colors z-10"
-                            onClick={onClose}
+                            onClick={handleClose}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
                         >
@@ -74,39 +105,63 @@ export default function PlayerModal({ comic, isOpen, onClose }: PlayerModalProps
 
                                 {/* Video/Content Area */}
                                 <div className="relative z-0 w-full h-full flex flex-col items-center justify-center p-8 text-center">
-                                    <img
-                                        src={comic.thumbnailUrl}
-                                        alt={comic.title}
-                                        className="w-32 h-32 rounded-vintage-lg border-4 border-vintage-ink mb-4 object-cover"
-                                    />
-
-                                    {comic.status !== 'RELEASED' ? (
-                                        <>
-                                            <motion.div
-                                                className="bg-amber-400 text-vintage-ink px-6 py-3 rounded-vintage
-                                   border-4 border-vintage-ink shadow-vintage font-display font-bold text-xl mb-4"
-                                                animate={{ rotate: [-2, 2, -2] }}
-                                                transition={{ duration: 0.5, repeat: Infinity }}
-                                            >
-                                                🔨 IN PRODUCTION
-                                            </motion.div>
-                                            <p className="text-vintage-sepia max-w-md">
-                                                {statusMessages[comic.status]}
-                                            </p>
-                                            <p className="text-vintage-sepia/70 text-sm mt-4 italic">
-                                                {comic.productionNotes}
-                                            </p>
-                                        </>
+                                    {showIntro ? (
+                                        /* Remotion Intro Player */
+                                        <div className="absolute inset-0 bg-black rounded-vintage overflow-hidden">
+                                            <Player
+                                                ref={playerRef}
+                                                component={BabaruIntro}
+                                                inputProps={{
+                                                    episodeTitle: comic.title,
+                                                }}
+                                                durationInFrames={240}
+                                                compositionWidth={1920}
+                                                compositionHeight={1080}
+                                                fps={30}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                }}
+                                                autoPlay
+                                            />
+                                        </div>
                                     ) : (
-                                        <motion.button
-                                            className="bg-babaru-purple text-white px-8 py-4 rounded-vintage
+                                        <>
+                                            <img
+                                                src={comic.thumbnailUrl}
+                                                alt={comic.title}
+                                                className="w-32 h-32 rounded-vintage-lg border-4 border-vintage-ink mb-4 object-cover"
+                                            />
+
+                                            {comic.status !== 'RELEASED' ? (
+                                                <>
+                                                    <motion.div
+                                                        className="bg-amber-400 text-vintage-ink px-6 py-3 rounded-vintage
+                                       border-4 border-vintage-ink shadow-vintage font-display font-bold text-xl mb-4"
+                                                        animate={{ rotate: [-2, 2, -2] }}
+                                                        transition={{ duration: 0.5, repeat: Infinity }}
+                                                    >
+                                                        🔨 IN PRODUCTION
+                                                    </motion.div>
+                                                    <p className="text-vintage-sepia max-w-md">
+                                                        {statusMessages[comic.status]}
+                                                    </p>
+                                                    <p className="text-vintage-sepia/70 text-sm mt-4 italic">
+                                                        {comic.productionNotes}
+                                                    </p>
+                                                </>
+                                            ) : (
+                                                <motion.button
+                                                    className="bg-babaru-purple text-white px-8 py-4 rounded-vintage
                                  border-4 border-vintage-ink shadow-vintage font-display font-bold text-xl"
-                                            onClick={() => setIsPlaying(!isPlaying)}
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                        >
-                                            {isPlaying ? '⏸️ Pause' : '▶️ Play'}
-                                        </motion.button>
+                                                    onClick={handlePlay}
+                                                    whileHover={{ scale: 1.05 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                >
+                                                    {isPlaying ? '🔄 Replay Intro' : '▶️ Play'}
+                                                </motion.button>
+                                            )}
+                                        </>
                                     )}
                                 </div>
                             </div>

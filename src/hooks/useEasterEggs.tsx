@@ -33,35 +33,19 @@ const defaultEggs: EasterEgg[] = [
 const EasterEggContext = createContext<EasterEggContextType | undefined>(undefined)
 
 export function EasterEggProvider({ children }: { children: ReactNode }) {
-    const [eggs, setEggs] = useState<EasterEgg[]>(() => {
-        if (typeof window === 'undefined') return defaultEggs
-
-        const saved = localStorage.getItem('babaru-easter-eggs')
-        if (saved) {
-            try {
-                return JSON.parse(saved)
-            } catch {
-                return defaultEggs
-            }
-        }
-        return defaultEggs
-    })
+    // Always start fresh — no localStorage persistence
+    const [eggs, setEggs] = useState<EasterEgg[]>(defaultEggs)
 
     const [konamiActive, setKonamiActive] = useState(false)
     const [_konamiSequence, setKonamiSequence] = useState<string[]>([])
 
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA']
 
-    // Save to localStorage
+    // First visit egg — triggers once per browser session (tab)
     useEffect(() => {
-        localStorage.setItem('babaru-easter-eggs', JSON.stringify(eggs))
-    }, [eggs])
-
-    // First visit egg
-    useEffect(() => {
-        const hasVisited = localStorage.getItem('babaru-visited')
+        const hasVisited = sessionStorage.getItem('babaru-visited-this-session')
         if (!hasVisited) {
-            localStorage.setItem('babaru-visited', 'true')
+            sessionStorage.setItem('babaru-visited-this-session', 'true')
             unlockEgg('first-visit')
         }
     }, [])
