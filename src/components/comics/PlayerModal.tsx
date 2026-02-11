@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Player } from '@remotion/player'
 import { Comic } from '../../data/comics'
+import { BabaruIntro } from '../../remotion/Intro/BabaruIntro'
 
 interface PlayerModalProps {
     comic: Comic | null
@@ -12,6 +14,8 @@ export default function PlayerModal({ comic, isOpen, onClose }: PlayerModalProps
     const [isPlaying, setIsPlaying] = useState(false)
 
     if (!comic) return null
+
+    const isIntroComic = comic.fullCompositionId === 'BabaruIntro'
 
     const statusMessages = {
         IN_PRODUCTION: "🔨 This comic is currently in production! Check back soon for the full experience!",
@@ -41,7 +45,7 @@ export default function PlayerModal({ comic, isOpen, onClose }: PlayerModalProps
                     <motion.div
                         className="relative bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 
                        rounded-vintage-xl p-6 md:p-8 border-8 border-vintage-ink shadow-vintage-xl
-                       max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+                       max-w-5xl w-full max-h-[90vh] overflow-y-auto"
                         initial={{ scale: 0.9, y: 50 }}
                         animate={{ scale: 1, y: 0 }}
                         exit={{ scale: 0.9, y: 50 }}
@@ -60,10 +64,9 @@ export default function PlayerModal({ comic, isOpen, onClose }: PlayerModalProps
                             ✕
                         </motion.button>
 
-                        {/* TV Screen */}
+                        {/* Player Area */}
                         <div className="bg-gradient-to-br from-gray-600 to-gray-700 rounded-vintage-lg p-4">
-                            <div className="bg-gradient-to-br from-babaru-cream to-babaru-cream-dark rounded-vintage 
-                              overflow-hidden border-4 border-vintage-ink relative aspect-video">
+                            <div className="rounded-vintage overflow-hidden border-4 border-vintage-ink relative aspect-video">
                                 {/* Scan lines */}
                                 <div
                                     className="absolute inset-0 pointer-events-none z-10 opacity-10"
@@ -72,32 +75,46 @@ export default function PlayerModal({ comic, isOpen, onClose }: PlayerModalProps
                                     }}
                                 />
 
-                                {/* Video/Content Area */}
-                                <div className="relative z-0 w-full h-full flex flex-col items-center justify-center p-8 text-center">
-                                    <img
-                                        src={comic.thumbnailUrl}
-                                        alt={comic.title}
-                                        className="w-32 h-32 rounded-vintage-lg border-4 border-vintage-ink mb-4 object-cover"
+                                {/* Content */}
+                                {isIntroComic ? (
+                                    <Player
+                                        component={BabaruIntro}
+                                        compositionWidth={1920}
+                                        compositionHeight={1080}
+                                        durationInFrames={165}
+                                        fps={30}
+                                        autoPlay={true}
+                                        loop={false}
+                                        controls={true}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                        }}
                                     />
-
-                                    {comic.status !== 'RELEASED' ? (
-                                        <>
-                                            <motion.div
-                                                className="bg-amber-400 text-vintage-ink px-6 py-3 rounded-vintage
+                                ) : comic.status !== 'RELEASED' ? (
+                                    <div className="relative z-0 w-full h-full flex flex-col items-center justify-center p-8 text-center bg-gradient-to-br from-babaru-cream to-babaru-cream-dark">
+                                        <img
+                                            src={comic.thumbnailUrl}
+                                            alt={comic.title}
+                                            className="w-32 h-32 rounded-vintage-lg border-4 border-vintage-ink mb-4 object-cover"
+                                        />
+                                        <motion.div
+                                            className="bg-amber-400 text-vintage-ink px-6 py-3 rounded-vintage
                                    border-4 border-vintage-ink shadow-vintage font-display font-bold text-xl mb-4"
-                                                animate={{ rotate: [-2, 2, -2] }}
-                                                transition={{ duration: 0.5, repeat: Infinity }}
-                                            >
-                                                🔨 IN PRODUCTION
-                                            </motion.div>
-                                            <p className="text-vintage-sepia max-w-md">
-                                                {statusMessages[comic.status]}
-                                            </p>
-                                            <p className="text-vintage-sepia/70 text-sm mt-4 italic">
-                                                {comic.productionNotes}
-                                            </p>
-                                        </>
-                                    ) : (
+                                            animate={{ rotate: [-2, 2, -2] }}
+                                            transition={{ duration: 0.5, repeat: Infinity }}
+                                        >
+                                            {comic.status === 'IN_PRODUCTION' ? '🔨 IN PRODUCTION' : '🎬 COMING SOON'}
+                                        </motion.div>
+                                        <p className="text-vintage-sepia max-w-md">
+                                            {statusMessages[comic.status]}
+                                        </p>
+                                        <p className="text-vintage-sepia/70 text-sm mt-4 italic">
+                                            {comic.productionNotes}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="relative z-0 w-full h-full flex flex-col items-center justify-center p-8 text-center bg-black">
                                         <motion.button
                                             className="bg-babaru-purple text-white px-8 py-4 rounded-vintage
                                  border-4 border-vintage-ink shadow-vintage font-display font-bold text-xl"
@@ -107,8 +124,8 @@ export default function PlayerModal({ comic, isOpen, onClose }: PlayerModalProps
                                         >
                                             {isPlaying ? '⏸️ Pause' : '▶️ Play'}
                                         </motion.button>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -185,3 +202,4 @@ export default function PlayerModal({ comic, isOpen, onClose }: PlayerModalProps
         </AnimatePresence>
     )
 }
+

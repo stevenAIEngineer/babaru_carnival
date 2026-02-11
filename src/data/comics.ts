@@ -53,6 +53,21 @@ const getRandomThumbnail = () => thumbnails[Math.floor(Math.random() * thumbnail
 
 export const comics: Comic[] = [
     {
+        id: 'babaru-intro',
+        title: 'BABARU — The Intro',
+        description: 'The official Babaru intro animation. Every great story needs a great opening.',
+        author: 'JC Industries',
+        thumbnailUrl: thumbnails[0],
+        previewCompositionId: 'BabaruIntro',
+        fullCompositionId: 'BabaruIntro',
+        durationInFrames: 165,
+        genre: ['Animation', 'Intro'],
+        rating: 5.0,
+        releaseDate: '2026-02-12',
+        status: 'RELEASED',
+        tags: ['intro', 'animation', 'official'],
+    },
+    {
         id: 'chaos-begins',
         title: 'The Chaos Begins',
         description: 'In the first episode, Babaru wakes up and immediately causes problems. As one does.',
@@ -248,6 +263,13 @@ export const comics: Comic[] = [
 ]
 
 export const comicRows: ComicRow[] = [
+    {
+        id: 'now-playing',
+        title: 'Now Playing',
+        emoji: '🎬',
+        subtitle: "Watch now! These are live and ready to go!",
+        comics: comics.filter(c => c.status === 'RELEASED'),
+    },
     {
         id: 'on-air',
         title: 'On Air Now',
