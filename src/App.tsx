@@ -9,6 +9,7 @@ import Home from './pages/Home'
 import Comics from './pages/Comics.tsx'
 import About from './pages/About.tsx'
 import Community from './pages/Community.tsx'
+import IntroPreview from './pages/IntroPreview.tsx'
 import { EasterEggProvider } from './hooks/useEasterEggs'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                         <Route path="/comics" element={<Comics />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/community" element={<Community />} />
+                        <Route path="/intro" element={<IntroPreview />} />
                     </Routes>
                 </AnimatePresence>
             </Layout>
