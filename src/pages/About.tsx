@@ -28,12 +28,12 @@ export default function About() {
     const [currentFact, setCurrentFact] = useState(0)
     const { unlockEgg } = useEasterEggs()
 
-    // Track page visits (session-only)
+    // Track page visits
     useEffect(() => {
-        const visitedPages = JSON.parse(sessionStorage.getItem('babaru-visited-pages') || '[]')
+        const visitedPages = JSON.parse(localStorage.getItem('babaru-visited-pages') || '[]')
         if (!visitedPages.includes('about')) {
             visitedPages.push('about')
-            sessionStorage.setItem('babaru-visited-pages', JSON.stringify(visitedPages))
+            localStorage.setItem('babaru-visited-pages', JSON.stringify(visitedPages))
         }
         if (visitedPages.length >= 4) {
             unlockEgg('explorer')

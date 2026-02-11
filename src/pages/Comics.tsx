@@ -10,12 +10,12 @@ export default function Comics() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { unlockEgg } = useEasterEggs()
 
-    // Track page visits (session-only)
+    // Track page visits
     useEffect(() => {
-        const visitedPages = JSON.parse(sessionStorage.getItem('babaru-visited-pages') || '[]')
+        const visitedPages = JSON.parse(localStorage.getItem('babaru-visited-pages') || '[]')
         if (!visitedPages.includes('comics')) {
             visitedPages.push('comics')
-            sessionStorage.setItem('babaru-visited-pages', JSON.stringify(visitedPages))
+            localStorage.setItem('babaru-visited-pages', JSON.stringify(visitedPages))
         }
         if (visitedPages.length >= 4) {
             unlockEgg('explorer')

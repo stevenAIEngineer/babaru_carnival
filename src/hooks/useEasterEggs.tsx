@@ -33,7 +33,6 @@ const defaultEggs: EasterEgg[] = [
 const EasterEggContext = createContext<EasterEggContextType | undefined>(undefined)
 
 export function EasterEggProvider({ children }: { children: ReactNode }) {
-    // Always start fresh — no localStorage persistence
     const [eggs, setEggs] = useState<EasterEgg[]>(defaultEggs)
 
     const [konamiActive, setKonamiActive] = useState(false)
@@ -41,13 +40,9 @@ export function EasterEggProvider({ children }: { children: ReactNode }) {
 
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA']
 
-    // First visit egg — triggers once per browser session (tab)
+    // Unlock first-visit egg on every fresh load
     useEffect(() => {
-        const hasVisited = sessionStorage.getItem('babaru-visited-this-session')
-        if (!hasVisited) {
-            sessionStorage.setItem('babaru-visited-this-session', 'true')
-            unlockEgg('first-visit')
-        }
+        unlockEgg('first-visit')
     }, [])
 
     // Konami code listener

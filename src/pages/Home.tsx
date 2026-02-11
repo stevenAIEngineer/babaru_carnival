@@ -11,12 +11,12 @@ export default function Home() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { unlockEgg } = useEasterEggs()
 
-    // Track page visits for easter egg (session-only)
+    // Track page visits for easter egg
     useEffect(() => {
-        const visitedPages = JSON.parse(sessionStorage.getItem('babaru-visited-pages') || '[]')
+        const visitedPages = JSON.parse(localStorage.getItem('babaru-visited-pages') || '[]')
         if (!visitedPages.includes('home')) {
             visitedPages.push('home')
-            sessionStorage.setItem('babaru-visited-pages', JSON.stringify(visitedPages))
+            localStorage.setItem('babaru-visited-pages', JSON.stringify(visitedPages))
         }
 
         // Check if all pages visited

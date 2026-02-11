@@ -5,12 +5,12 @@ import { useEasterEggs } from '../hooks/useEasterEggs'
 export default function Community() {
     const { unlockEgg } = useEasterEggs()
 
-    // Track page visits (session-only)
+    // Track page visits
     useEffect(() => {
-        const visitedPages = JSON.parse(sessionStorage.getItem('babaru-visited-pages') || '[]')
+        const visitedPages = JSON.parse(localStorage.getItem('babaru-visited-pages') || '[]')
         if (!visitedPages.includes('community')) {
             visitedPages.push('community')
-            sessionStorage.setItem('babaru-visited-pages', JSON.stringify(visitedPages))
+            localStorage.setItem('babaru-visited-pages', JSON.stringify(visitedPages))
         }
         if (visitedPages.length >= 4) {
             unlockEgg('explorer')
