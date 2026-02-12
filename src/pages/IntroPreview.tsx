@@ -55,31 +55,31 @@ export default function IntroPreview() {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
                         <div className="bg-purple-500/10 rounded-lg p-3">
                             <div className="text-purple-300 font-bold">Phase 1</div>
-                            <div className="text-gray-400">Fade In</div>
+                            <div className="text-gray-400">Dark Carnival Atmosphere</div>
                         </div>
                         <div className="bg-purple-500/10 rounded-lg p-3">
                             <div className="text-purple-300 font-bold">Phase 2</div>
-                            <div className="text-gray-400">Ribbon Trails</div>
+                            <div className="text-gray-400">BABARU Title Slam</div>
                         </div>
                         <div className="bg-purple-500/10 rounded-lg p-3">
                             <div className="text-purple-300 font-bold">Phase 3</div>
-                            <div className="text-gray-400">BABARU Text</div>
+                            <div className="text-gray-400">Snarky Tagline</div>
                         </div>
                         <div className="bg-purple-500/10 rounded-lg p-3">
                             <div className="text-purple-300 font-bold">Phase 4</div>
-                            <div className="text-gray-400">Glow & Hold</div>
+                            <div className="text-gray-400">Babaru Wink Reveal</div>
                         </div>
                         <div className="bg-purple-500/10 rounded-lg p-3">
                             <div className="text-purple-300 font-bold">Phase 5</div>
-                            <div className="text-gray-400">Babaru Winks</div>
+                            <div className="text-gray-400">Cinematic Zoom</div>
                         </div>
                         <div className="bg-purple-500/10 rounded-lg p-3">
                             <div className="text-purple-300 font-bold">Phase 6</div>
-                            <div className="text-gray-400">Zoom & Fade</div>
+                            <div className="text-gray-400">Fade to Black</div>
                         </div>
                     </div>
                     <p className="text-gray-500 text-xs mt-4">
-                        165 frames · 30fps · 5.5s total · Made with Remotion
+                        210 frames · 30fps · 7s total · Made with Remotion
                     </p>
                 </div>
             </motion.div>

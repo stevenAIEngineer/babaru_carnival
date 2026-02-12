@@ -27,7 +27,7 @@ export default function IntroPlayer({
                 component={BabaruIntro}
                 compositionWidth={1920}
                 compositionHeight={1080}
-                durationInFrames={165}
+                durationInFrames={210}
                 fps={30}
                 autoPlay={autoPlay}
                 loop={loop}

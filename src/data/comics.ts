@@ -60,7 +60,7 @@ export const comics: Comic[] = [
         thumbnailUrl: thumbnails[0],
         previewCompositionId: 'BabaruIntro',
         fullCompositionId: 'BabaruIntro',
-        durationInFrames: 165,
+        durationInFrames: 210,
         genre: ['Animation', 'Intro'],
         rating: 5.0,
         releaseDate: '2026-02-12',

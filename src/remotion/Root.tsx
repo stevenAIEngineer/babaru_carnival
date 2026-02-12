@@ -11,7 +11,7 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="BabaruIntro"
                 component={BabaruIntro}
-                durationInFrames={165}
+                durationInFrames={210}
                 fps={30}
                 width={1920}
                 height={1080}
